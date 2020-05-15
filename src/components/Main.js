@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { View, Platform } from 'react-native';
 
 import Menu from './Menu';
 import DishDetail from './DishDetail';
@@ -28,10 +29,12 @@ const MenuStackNavigator = () => {
 class Main extends Component {
     render() {
         return(
-            <Drawer.Navigator initialRouteName='Home'>
-                <Drawer.Screen name='Home' component={Home} options={{drawerLabel: 'Home'}} />
-                <Drawer.Screen name='MenuStackNavigator' component={MenuStackNavigator} options={{drawerLabel: 'Menu'}} />
-            </Drawer.Navigator>
+            <View style={{flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight}}>
+                <Drawer.Navigator initialRouteName='Home'>
+                    <Drawer.Screen name='Home' component={Home} options={{title:'Home', drawerLabel: 'Home'}} />
+                    <Drawer.Screen name='MenuStackNavigator' component={MenuStackNavigator} options={{title:'Dish', drawerLabel: 'Menu'}} />
+                </Drawer.Navigator>
+            </View>
         )
     }
 }
