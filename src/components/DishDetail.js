@@ -1,9 +1,26 @@
 import React, { useState } from 'react';
 import { Text, View, FlatList } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
+import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
 import { DISHES } from '../shared/dishes';
 import { COMMENTS } from '../shared/comments';
+
+// Recoil atom
+const dishListState = atom({
+    key: 'dishList',
+    default: DISHES
+});
+
+const commentListState = atom({
+    key: 'commentList',
+    default: COMMENTS
+});
+
+const setFavoriteDish = atom({
+    key: 'favoriteDish',
+    default: []
+});
 
 const RenderDish = props => {
     const dish = props.dish;
@@ -53,12 +70,12 @@ const RenderComments = props => {
 }
 
 const DishDetail = ({ route }) => {
-        const [dishes, setDishes] = useState(DISHES); // Hooks
-        const [comments, setComments] = useState(COMMENTS); // Hooks
-        const [favorites, setfavorites] = useState([]); // Hooks
+        const dishes = useRecoilValue(dishListState); // Recoil
+        const comments = useRecoilValue(commentListState); // Recoil
+        const [favorites, setFavorites] = useRecoilState(setFavoriteDish); // Recoil
 
         const markFavorite = favDish => {
-            setfavorites(favorites => favorites.concat(favDish));
+            setFavorites(favorites => favorites.concat(favDish));
         }
 
         const { dishId } = route.params;
