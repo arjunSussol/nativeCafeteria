@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Text, View, FlatList } from 'react-native';
-import { Card } from 'react-native-elements';
+import { Card, Icon } from 'react-native-elements';
 
 import { DISHES } from '../shared/dishes';
 import { COMMENTS } from '../shared/comments';
@@ -14,6 +14,13 @@ const RenderDish = props => {
                 image={require('../assets/images/uthappizza.png')} 
             >
                 <Text style={{margin: 10}}>{dish.description}</Text>
+                <Icon 
+                    raised
+                    reverse
+                    name={props.favorite ? 'heart' : 'heart-o'}
+                    type='font-awesome'
+                    color='#f50'
+                    onPress={() => props.favorite ? console.log('Already marked') : props.onPress()}/>
             </Card>
         )
     } else {
@@ -35,7 +42,7 @@ const RenderComments = props => {
     };
 
     return(
-        <Card title='Comments'>
+        <Card title='Comments' style={{flex: 1, marginBottom: 25}}>
             <FlatList
                 data={commentList}
                 renderItem={renderCommentList}
@@ -48,13 +55,19 @@ const RenderComments = props => {
 const DishDetail = ({ route }) => {
         const [dishes, setDishes] = useState(DISHES); // Hooks
         const [comments, setComments] = useState(COMMENTS); // Hooks
+        const [favorites, setfavorites] = useState([]); // Hooks
+
+        const markFavorite = favDish => {
+            setfavorites(favorites => favorites.concat(favDish));
+        }
 
         const { dishId } = route.params;
         const dishID = JSON.stringify(dishId);
         return(
             <View>
-            <RenderDish dish={dishes[dishID]} />
-            <RenderComments comment={comments.filter(comment => comment.dishId === dishId)} />
+                <RenderDish dish={dishes[dishID]} favorite={favorites.some(el => el === dishId)} 
+                    onPress={() => markFavorite(dishId)} />
+                <RenderComments comment={comments.filter(comment => comment.dishId === dishId)} />
             </View>
         )
 }
