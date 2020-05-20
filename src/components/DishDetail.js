@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text, View, FlatList } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
