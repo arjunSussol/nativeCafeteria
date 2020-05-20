@@ -3,17 +3,23 @@ import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { RecoilRoot } from 'recoil';
+import { Provider } from 'react-redux';
 
+import { ConfigureStore } from './src/redux/configureStore';
 import Main from './src/components/Main';
+
+const store = ConfigureStore();
 
 export default class App extends Component {
   render(){
     return (
+      <Provider store={store}>
       <RecoilRoot>
       <NavigationContainer>
         <Main style={styles.container} /> 
       </NavigationContainer>
-      </RecoilRoot>         
+      </RecoilRoot>  
+      </Provider>       
     )
   }
 }

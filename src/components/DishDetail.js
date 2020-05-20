@@ -1,22 +1,19 @@
 import React from 'react';
 import { Text, View, FlatList } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
-import { atom, useRecoilState, useRecoilValue } from 'recoil';
+import { atom, useRecoilState } from 'recoil';
+import { connect } from 'react-redux';
 
-import { DISHES } from '../shared/dishes';
-import { COMMENTS } from '../shared/comments';
+import { baseUrl } from '../shared/baseUrl';
+
+const mapStateToProps = state => {
+    return {
+        dishes: state.dishes,
+        comments: state.comments
+    }
+}
 
 // Recoil atom
-const dishListState = atom({
-    key: 'dishList',
-    default: DISHES
-});
-
-const commentListState = atom({
-    key: 'commentList',
-    default: COMMENTS
-});
-
 const setFavoriteDish = atom({
     key: 'favoriteDish',
     default: []
@@ -28,7 +25,7 @@ const RenderDish = props => {
         return(
             <Card 
                 featuredTitle={dish.name}
-                image={require('../assets/images/uthappizza.png')} 
+                image={{uri: baseUrl + dish.image}} 
             >
                 <Text style={{margin: 10}}>{dish.description}</Text>
                 <Icon 
@@ -69,24 +66,22 @@ const RenderComments = props => {
     )
 }
 
-const DishDetail = ({ route }) => {
-        const dishes = useRecoilValue(dishListState); // Recoil
-        const comments = useRecoilValue(commentListState); // Recoil
+const DishDetail = props => {
         const [favorites, setFavorites] = useRecoilState(setFavoriteDish); // Recoil
 
         const markFavorite = favDish => {
             setFavorites(favorites => favorites.concat(favDish));
         }
 
-        const { dishId } = route.params;
+        const { dishId } = props.route.params;
         const dishID = JSON.stringify(dishId);
         return(
             <View>
-                <RenderDish dish={dishes[dishID]} favorite={favorites.some(el => el === dishId)} 
+                <RenderDish dish={props.dishes.dishes[dishID]} favorite={favorites.some(el => el === dishId)} 
                     onPress={() => markFavorite(dishId)} />
-                <RenderComments comment={comments.filter(comment => comment.dishId === dishId)} />
+                <RenderComments comment={props.comments.comments.filter(comment => comment.dishId === dishId)} />
             </View>
         )
 }
 
-export default DishDetail;
+export default connect(mapStateToProps)(DishDetail);

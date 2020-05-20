@@ -8,6 +8,6 @@ export const comments = (state = { errMsg: null,
         case ActionTypes.COMMENTS_FAILED:
             return { ...state, errMsg: action.payload};
         default:
-            state;
+            return state;
     }
 }

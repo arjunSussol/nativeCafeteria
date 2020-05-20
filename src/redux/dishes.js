@@ -11,6 +11,6 @@ export const dishes = (state = { isLoading: true,
         case ActionTypes.DISHES_FAILED:
             return { ...state, isLoading: false, errMsg: action.payload};
         default:
-            state;
+            return state;
     }
 }
