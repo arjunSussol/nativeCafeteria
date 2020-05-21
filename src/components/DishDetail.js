@@ -1,22 +1,21 @@
 import React from 'react';
 import { Text, View, FlatList } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
-import { atom, useRecoilState } from 'recoil';
 import { connect } from 'react-redux';
 
 import { baseUrl } from '../shared/baseUrl';
+import { postFavorite } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
     return {
         dishes: state.dishes,
-        comments: state.comments
+        comments: state.comments,
+        favorites: state.favorites
     }
 }
 
-// Recoil atom
-const setFavoriteDish = atom({
-    key: 'favoriteDish',
-    default: []
+const mapDispatchToProps = dispatch => ({
+    postFavorite: dishId => dispatch(postFavorite(dishId))
 });
 
 const RenderDish = props => {
@@ -67,21 +66,19 @@ const RenderComments = props => {
 }
 
 const DishDetail = props => {
-        const [favorites, setFavorites] = useRecoilState(setFavoriteDish); // Recoil
-
-        const markFavorite = favDish => {
-            setFavorites(favorites => favorites.concat(favDish));
+        const markFavorite = dishId => {
+            props.postFavorite(dishId);
         }
 
         const { dishId } = props.route.params;
         const dishID = JSON.stringify(dishId);
         return(
             <View>
-                <RenderDish dish={props.dishes.dishes[dishID]} favorite={favorites.some(el => el === dishId)} 
+                <RenderDish dish={props.dishes.dishes[dishID]} favorite={props.favorites.some(el => el === dishId)} 
                     onPress={() => markFavorite(dishId)} />
                 <RenderComments comment={props.comments.comments.filter(comment => comment.dishId === dishId)} />
             </View>
         )
 }
 
-export default connect(mapStateToProps)(DishDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(DishDetail);
