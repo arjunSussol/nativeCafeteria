@@ -4,6 +4,7 @@ import { Card, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import { baseUrl } from '../shared/baseUrl';
+import Loading from './Loading';
 
 const mapStateToProps = state => {
     return {
@@ -41,18 +42,40 @@ class About extends Component {
     }
 
     render() {
-        return(
-            <SafeAreaView>
-                <History />
-                <Card title="Corporate Leadership">
-                    <FlatList 
-                        data={this.props.leaders.leaders}
-                        renderItem={this.renderLeadership}
-                        keyExtractor={item => item.id.toString()}
-                    />  
-                </Card>                 
-            </SafeAreaView>
-        )
+        if (this.props.leaders.isLoading) {
+            return(
+                <SafeAreaView>
+                    <History />
+                    <Card title="Corporate Leadership">
+                        <Loading />
+                    </Card>                 
+                </SafeAreaView>
+            )
+        } 
+        else if (this.props.leaders.errMsg) {
+            return(
+                <SafeAreaView>
+                    <History />
+                    <Card title="Corporate Leadership">
+                        <Text>{this.props.leaders.errMsg}</Text>
+                    </Card>                 
+                </SafeAreaView>
+            )
+        } 
+        else {
+            return(
+                <SafeAreaView>
+                    <History />
+                    <Card title="Corporate Leadership">
+                        <FlatList 
+                            data={this.props.leaders.leaders}
+                            renderItem={this.renderLeadership}
+                            keyExtractor={item => item.id.toString()}
+                        />  
+                    </Card>                 
+                </SafeAreaView>
+            )
+        }        
     }
 }
 
