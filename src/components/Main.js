@@ -10,6 +10,7 @@ import DishDetail from './DishDetail';
 import Home from './Home';
 import About from './About';
 import Contact from './Contact';
+import Reservation from './Reservation';
 import CustomDrawerContent from './DrawerContent';
 import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
 
@@ -36,6 +37,24 @@ const HomeStackNavigator = ({ navigation }) => {
     return(
         <Stack.Navigator>
             <Stack.Screen name='Home' component={Home} options={{title: 'Home',
+                headerLeft: () => <Icon name='menu' color='white' onPress={() => navigation.toggleDrawer()} />,
+                headerStyle: {
+                    backgroundColor: '#512DA8',
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                },
+            }}
+        />   
+        </Stack.Navigator>
+    )
+}
+
+const ReservationStackNavigator = ({ navigation }) => {
+    return(
+        <Stack.Navigator>
+            <Stack.Screen name='Home' component={Reservation} options={{title: 'Reservation',
                 headerLeft: () => <Icon name='menu' color='white' onPress={() => navigation.toggleDrawer()} />,
                 headerStyle: {
                     backgroundColor: '#512DA8',
@@ -123,6 +142,7 @@ class Main extends Component {
                     <Drawer.Screen name='About' component={AboutStackNavigator} />
                     <Drawer.Screen name='Menu' component={MenuStackNavigator} />
                     <Drawer.Screen name='Contact' component={ContactStackNavigator} />
+                    <Drawer.Screen name='Reservation' component={ReservationStackNavigator} />
                 </Drawer.Navigator>
             </View>
         )

@@ -3,7 +3,7 @@ import {
     DrawerContentScrollView,
     DrawerItem
   } from '@react-navigation/drawer';
-  import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { View, Image, StyleSheet, Text } from 'react-native';
 
   export default CustomDrawerContent = props => {
@@ -63,6 +63,17 @@ import { View, Image, StyleSheet, Text } from 'react-native';
               )}
               label="Contact Us"
               onPress={() => props.navigation.navigate('Contact')}
+            />
+            <DrawerItem
+              icon={({color, size}) => (
+                <Icon
+                  name='utensils'
+                  color={color}
+                  size={size}
+                />
+              )}
+              label="Reservation"
+              onPress={() => props.navigation.navigate('Reservation')}
             />
           </View>
         </DrawerContentScrollView>
