@@ -75,6 +75,17 @@ import { View, Image, StyleSheet, Text } from 'react-native';
               label="Reservation"
               onPress={() => props.navigation.navigate('Reservation')}
             />
+            <DrawerItem
+              icon={({color, size}) => (
+                <Icon
+                  name='heart'
+                  color={color}
+                  size={size}
+                />
+              )}
+              label="My Favorites"
+              onPress={() => props.navigation.navigate('Favorite')}
+            />
           </View>
         </DrawerContentScrollView>
         
