@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, View, Text, TouchableHighlight } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Text, TouchableHighlight, Alert } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -61,7 +61,21 @@ class Favorite extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={[styles.backRightBtn, styles.backRightBtnRight]}
-                    onPress={() => deleteRow(rowMap, data.item.id)}
+                    onPress={() => {
+                        Alert.alert(
+                            'Delete Favorite?',
+                            'Are you sure you wish to delete the favorite dish ' + data.item.name + '?',
+                            [
+                              {
+                                text: 'Cancel',
+                                onPress: () => console.log(data.item.name + ' not deleted.'),
+                                style: 'cancel'
+                              },
+                              { text: 'OK', onPress: () => deleteRow(rowMap, data.item.id) }
+                            ],
+                            { cancelable: false }
+                          );
+                        }}
                 >
                     <Text style={styles.backTextWhite}>Delete</Text>
                 </TouchableOpacity>
