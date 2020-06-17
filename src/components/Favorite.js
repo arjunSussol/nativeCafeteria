@@ -3,6 +3,7 @@ import { StyleSheet, TouchableOpacity, View, Text, TouchableHighlight, Alert } f
 import { ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { SwipeListView } from 'react-native-swipe-list-view';
+import * as Animatable from 'react-native-animatable';
 
 import { Loading } from './Loading';
 import { baseUrl } from '../shared/baseUrl';
@@ -37,17 +38,19 @@ class Favorite extends Component {
         };
 
         const renderMenuItem = ({item, index}) => {
-            return(                
-                <TouchableHighlight>
-                    <ListItem 
-                        key={index}
-                        title={item.name}
-                        subtitle={item.description}
-                        chevron={true}
-                        leftAvatar={{source: {uri: baseUrl + item.image}}}
-                        onPress={()=>navigate('DishDetail', {dishId: item.id})}
-                    />
-                </TouchableHighlight>
+            return(             
+                <Animatable.View animation='fadeInRightBig' duration={2000}>   
+                    <TouchableHighlight>
+                        <ListItem 
+                            key={index}
+                            title={item.name}
+                            subtitle={item.description}
+                            chevron={true}
+                            leftAvatar={{source: {uri: baseUrl + item.image}}}
+                            onPress={()=>navigate('DishDetail', {dishId: item.id})}
+                        />
+                    </TouchableHighlight>
+                </Animatable.View>
             )
         };
 

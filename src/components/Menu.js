@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
+import * as Animatable from 'react-native-animatable';
 
 import { baseUrl } from '../shared/baseUrl';
 import Loading from './Loading';
@@ -19,14 +20,16 @@ class Menu extends Component {
 
     renderMenuItem = ({item, index}) => {
         return(
-            <ListItem 
-                key={index}
-                title={item.name}
-                subtitle={item.description}
-                chevron={true}
-                leftAvatar={{source: {uri: baseUrl + item.image}}}
-                onPress={()=>this.props.navigation.navigate('DishDetail', {dishId: item.id})}
-                />
+            <Animatable.View animation='fadeInRightBig' duration={2000}>
+                <ListItem 
+                    key={index}
+                    title={item.name}
+                    subtitle={item.description}
+                    chevron={true}
+                    leftAvatar={{source: {uri: baseUrl + item.image}}}
+                    onPress={()=>this.props.navigation.navigate('DishDetail', {dishId: item.id})}
+                    />
+            </Animatable.View>
         )
     };
 

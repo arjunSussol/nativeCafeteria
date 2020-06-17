@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, FlatList, SafeAreaView } from 'react-native';
 import { Card, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
+import * as Animatable from 'react-native-animatable';
 
 import { baseUrl } from '../shared/baseUrl';
 import Loading from './Loading';
@@ -55,24 +56,28 @@ class About extends Component {
         else if (this.props.leaders.errMsg) {
             return(
                 <SafeAreaView>
-                    <History />
-                    <Card title="Corporate Leadership">
-                        <Text>{this.props.leaders.errMsg}</Text>
-                    </Card>                 
+                    <Animatable.View animation='fadeInDown' duration={2000} delay={1000}>
+                        <History />
+                        <Card title="Corporate Leadership">
+                            <Text>{this.props.leaders.errMsg}</Text>
+                        </Card>
+                    </Animatable.View>                
                 </SafeAreaView>
             )
         } 
         else {
             return(
                 <SafeAreaView>
-                    <History />
-                    <Card title="Corporate Leadership">
-                        <FlatList 
-                            data={this.props.leaders.leaders}
-                            renderItem={this.renderLeadership}
-                            keyExtractor={item => item.id.toString()}
-                        />  
-                    </Card>                 
+                    <Animatable.View animation='fadeInDown' duration={2000} delay={1000}>
+                        <History />
+                        <Card title="Corporate Leadership">
+                            <FlatList 
+                                data={this.props.leaders.leaders}
+                                renderItem={this.renderLeadership}
+                                keyExtractor={item => item.id.toString()}
+                            />  
+                        </Card> 
+                    </Animatable.View>                 
                 </SafeAreaView>
             )
         }        
